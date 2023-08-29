@@ -8,7 +8,12 @@ import { PrismaClient } from '../prisma/client';
 import PrismaTypes from '../prisma/generated';
 import { DateResolver } from 'graphql-scalars';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({ log: [{ emit: "event", level: "query" }] });
+// notice in the logs that the params are the same, even though the args are different
+prisma.$on("query", (e) => {
+  console.log("Query: " + e.query);
+  console.log("Params: " + e.params);
+});
 
 const builder = new SchemaBuilder<{
   PrismaTypes: PrismaTypes;
@@ -86,9 +91,10 @@ builder.prismaObject('Value', {
 const schema = builder.toSchema({});
 
 const query = /* graphql */ `
+
   query {
     account(id: 1) {
-      values(first: 2) {
+      values1: values(filter: { date: { equals: "2020-07-30" } }) {
         edges {
           node {
             id
@@ -97,7 +103,7 @@ const query = /* graphql */ `
           }
         }
       }
-      values2: values(first: 2, filter: { date: { lte: "2020-05-01" } }) {
+      values2: values(filter: { date: { equals: "2020-05-17" } }) {
         edges {
           node {
             id
