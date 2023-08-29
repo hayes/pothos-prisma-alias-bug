@@ -1,6 +1,6 @@
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -25,7 +25,7 @@ model Account {
 model Value {
   id        Int      @id @default(autoincrement())
   value     String
-  date      DateTime
+  date      DateTime @db.Date
   account   Account  @relation(fields: [accountId], references: [id])
   accountId Int
 }
