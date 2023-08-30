@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 dependencies:
   '@faker-js/faker':
     specifier: ^8.0.2
@@ -12,11 +8,11 @@ dependencies:
     specifier: ^3.33.0
     version: 3.33.0(graphql@16.8.0)
   '@pothos/plugin-prisma':
-    specifier: ^3.57.0
-    version: 3.57.0(@pothos/core@3.33.0)(@prisma/client@5.2.0)(graphql@16.8.0)(typescript@5.2.2)
+    specifier: ^3.58.0
+    version: 3.58.0(@pothos/core@3.33.0)(@prisma/client@5.2.0)(graphql@16.8.0)
   '@pothos/plugin-prisma-utils':
     specifier: ^0.11.0
-    version: 0.11.0(@pothos/core@3.33.0)(@pothos/plugin-prisma@3.57.0)(@prisma/client@5.2.0)(graphql@16.8.0)
+    version: 0.11.0(@pothos/core@3.33.0)(@pothos/plugin-prisma@3.58.0)(@prisma/client@5.2.0)(graphql@16.8.0)
   '@pothos/plugin-relay':
     specifier: ^3.43.1
     version: 3.43.1(@pothos/core@3.33.0)(graphql@16.8.0)
@@ -374,7 +370,7 @@ packages:
       graphql: 16.8.0
     dev: false
 
-  /@pothos/plugin-prisma-utils@0.11.0(@pothos/core@3.33.0)(@pothos/plugin-prisma@3.57.0)(@prisma/client@5.2.0)(graphql@16.8.0):
+  /@pothos/plugin-prisma-utils@0.11.0(@pothos/core@3.33.0)(@pothos/plugin-prisma@3.58.0)(@prisma/client@5.2.0)(graphql@16.8.0):
     resolution: {integrity: sha512-li2oVny2J8Q+rKAM7fO5gjYiaHPAHyIr9nmH4TAyvxBrzH9syR2l8wemDH2lWaxm0trpN45uiT2eGTKgiBfaBw==}
     peerDependencies:
       '@pothos/core': '*'
@@ -383,7 +379,7 @@ packages:
       graphql: '>=15.1.0'
     dependencies:
       '@pothos/core': 3.33.0(graphql@16.8.0)
-      '@pothos/plugin-prisma': 3.57.0(@pothos/core@3.33.0)(@prisma/client@5.2.0)(graphql@16.8.0)(typescript@5.2.2)
+      '@pothos/plugin-prisma': 3.58.0(@pothos/core@3.33.0)(@prisma/client@5.2.0)(graphql@16.8.0)
       '@prisma/client': 5.2.0(prisma@5.2.0)
       '@prisma/generator-helper': 5.2.0
       graphql: 16.8.0
@@ -391,8 +387,8 @@ packages:
       - supports-color
     dev: false
 
-  /@pothos/plugin-prisma@3.57.0(@pothos/core@3.33.0)(@prisma/client@5.2.0)(graphql@16.8.0)(typescript@5.2.2):
-    resolution: {integrity: sha512-TMR7f3vx+2OjqKB6o096QL+w6k2aUY5a2P+aujyJptUPsN2i6OobnSePH7iXxL/2tsObdZvRhM51r7VOBZqatw==}
+  /@pothos/plugin-prisma@3.58.0(@pothos/core@3.33.0)(@prisma/client@5.2.0)(graphql@16.8.0):
+    resolution: {integrity: sha512-XiXL6V3yzUiI8AGmnADh03NaFuv25nAYU3EC2Nj6SubH6RaaGtMiFKHr1Ze4t1J/PzBaB7MA0bDgMzdGf9oddA==}
     hasBin: true
     peerDependencies:
       '@pothos/core': '*'
@@ -404,7 +400,6 @@ packages:
       '@prisma/client': 5.2.0(prisma@5.2.0)
       '@prisma/generator-helper': 5.2.0
       graphql: 16.8.0
-      typescript: 5.2.2
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -753,12 +748,6 @@ packages:
       fsevents: 2.3.3
     dev: false
 
-  /typescript@5.2.2:
-    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-    dev: false
-
   /urlpattern-polyfill@9.0.0:
     resolution: {integrity: sha512-WHN8KDQblxd32odxeIgo83rdVDE2bvdkb86it7bMhYZwWKJz0+O0RK/eZiHYnM+zgt/U7hAHOlCQGfjjvSkw2g==}
     dev: false
@@ -775,3 +764,7 @@ packages:
     dependencies:
       isexe: 2.0.0
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
