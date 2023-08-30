@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type { Prisma, Account, Value } from "./client";
+import type { Prisma, Account, Value, Score } from "./client";
 export default interface PrismaTypes {
     Account: {
         Name: "Account";
@@ -30,12 +30,35 @@ export default interface PrismaTypes {
         Where: Prisma.ValueWhereInput;
         Create: Prisma.ValueCreateInput;
         Update: Prisma.ValueUpdateInput;
-        RelationName: "account";
-        ListRelations: never;
+        RelationName: "account" | "scores";
+        ListRelations: "scores";
         Relations: {
             account: {
                 Shape: Account;
                 Name: "Account";
+            };
+            scores: {
+                Shape: Score[];
+                Name: "Score";
+            };
+        };
+    };
+    Score: {
+        Name: "Score";
+        Shape: Score;
+        Include: Prisma.ScoreInclude;
+        Select: Prisma.ScoreSelect;
+        OrderBy: Prisma.ScoreOrderByWithRelationInput;
+        WhereUnique: Prisma.ScoreWhereUniqueInput;
+        Where: Prisma.ScoreWhereInput;
+        Create: Prisma.ScoreCreateInput;
+        Update: Prisma.ScoreUpdateInput;
+        RelationName: "value";
+        ListRelations: never;
+        Relations: {
+            value: {
+                Shape: Value;
+                Name: "Value";
             };
         };
     };

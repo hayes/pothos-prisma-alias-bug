@@ -49,11 +49,19 @@ builder.queryType({
   }),
 });
 
+const DateFilter = builder.prismaFilter('Date', {
+  ops: ['gte', 'lte', 'equals'],
+});
+
 const AccountValuesFilter = builder.prismaWhere('Value', {
   fields: (t) => ({
-    date: builder.prismaFilter('Date', {
-      ops: ['gte', 'lte', 'equals'],
-    }),
+    date: DateFilter
+  }),
+});
+
+const ValuesScoreFilter = builder.prismaWhere('Score', {
+  fields: (t) => ({
+    date: DateFilter
   }),
 });
 
@@ -69,7 +77,6 @@ builder.prismaObject('Account', {
         filter: t.arg({ type: AccountValuesFilter }),
       },
       query: (args) => {
-        console.log('-> args', args);
         return {
           where: args.filter ?? {},
         };
@@ -78,6 +85,7 @@ builder.prismaObject('Account', {
   }),
 });
 
+
 builder.prismaObject('Value', {
   fields: (t) => ({
     id: t.exposeID('id'),
@@ -85,30 +93,69 @@ builder.prismaObject('Value', {
     date: t.expose('date', {
       type: 'Date',
     }),
+    scoreDate: t.field({
+      type: "Date",
+      nullable: true,
+      args: {
+        filter: t.arg({ type: ValuesScoreFilter }),
+      },
+      select: (args) => ({
+        scores: {
+          select: {
+            date: true,
+          },
+          orderBy: { score: "asc" },
+          take: 1,
+          where: {
+            ...(args.filter ?? {}),
+            name: "score1"
+          }
+        },
+      }),
+      resolve: ({ scores }) => {
+        return scores?.[0]?.date;
+      }
+    }),
+    score: t.string({
+      nullable: true,
+      args: {
+        filter: t.arg({ type: ValuesScoreFilter }),
+      },
+      select: (args) => ({
+        scores: {
+          select: {
+            score: true,
+          },
+          orderBy: { score: "desc" },
+          take: 1,
+          where: {
+            ...(args.filter ?? {}),
+            name: "score3",
+          }
+        },
+      }),
+      resolve: ({ scores }) => {
+        return scores?.[0]?.score;
+      }
+    })
   }),
 });
 
 const schema = builder.toSchema({});
 
 const query = /* graphql */ `
-
   query {
     account(id: 1) {
-      values1: values(filter: { date: { equals: "2020-07-30" } }) {
+      values {
         edges {
           node {
             id
             value
             date
-          }
-        }
-      }
-      values2: values(filter: { date: { equals: "2020-05-17" } }) {
-        edges {
-          node {
-            id
-            value
-            date
+            currentScore: score(filter: { date: { equals: "2020-04-27" } })
+            previousScore: score(filter: { date: { equals: "2019-04-27" } })
+            currentScoreDate:scoreDate(filter: { date: { lte: "2020-07-30" } })
+            previousScoreDate:scoreDate(filter: { date: { lte: "2019-07-30" } })
           }
         }
       }
@@ -125,6 +172,6 @@ const yoga = createYoga({
 
 const server = createServer(yoga);
 
-const port = 3000;
+const port = 4000;
 
 server.listen(port, () => console.log(`Server is running on http://localhost:${port}/graphql`));
