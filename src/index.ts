@@ -8,11 +8,17 @@ import { PrismaClient } from '../prisma/client';
 import PrismaTypes from '../prisma/generated';
 import { DateResolver } from 'graphql-scalars';
 
-const prisma = new PrismaClient({ log: [{ emit: "event", level: "query" }] });
+const prisma = new PrismaClient({ log: [{ emit: 'event', level: 'query' }] });
 // notice in the logs that the params are the same, even though the args are different
-prisma.$on("query", (e) => {
-  console.log("Query: " + e.query);
-  console.log("Params: " + e.params);
+prisma.$on('query', (e) => {
+  console.log('Query: ' + e.query);
+  console.log('Params: ' + e.params);
+});
+
+prisma.$use((params, next) => {
+  console.dir(params, { depth: 10 });
+
+  return next(params);
 });
 
 const builder = new SchemaBuilder<{
@@ -55,13 +61,13 @@ const DateFilter = builder.prismaFilter('Date', {
 
 const AccountValuesFilter = builder.prismaWhere('Value', {
   fields: (t) => ({
-    date: DateFilter
+    date: DateFilter,
   }),
 });
 
 const ValuesScoreFilter = builder.prismaWhere('Score', {
   fields: (t) => ({
-    date: DateFilter
+    date: DateFilter,
   }),
 });
 
@@ -85,7 +91,6 @@ builder.prismaObject('Account', {
   }),
 });
 
-
 builder.prismaObject('Value', {
   fields: (t) => ({
     id: t.exposeID('id'),
@@ -94,7 +99,7 @@ builder.prismaObject('Value', {
       type: 'Date',
     }),
     scoreDate: t.field({
-      type: "Date",
+      type: 'Date',
       nullable: true,
       args: {
         filter: t.arg({ type: ValuesScoreFilter }),
@@ -104,17 +109,17 @@ builder.prismaObject('Value', {
           select: {
             date: true,
           },
-          orderBy: { score: "asc" },
+          orderBy: { score: 'asc' },
           take: 1,
           where: {
             ...(args.filter ?? {}),
-            name: "score1"
-          }
+            name: 'score1',
+          },
         },
       }),
       resolve: ({ scores }) => {
         return scores?.[0]?.date;
-      }
+      },
     }),
     score: t.string({
       nullable: true,
@@ -124,20 +129,21 @@ builder.prismaObject('Value', {
       select: (args) => ({
         scores: {
           select: {
+            id: true,
             score: true,
           },
-          orderBy: { score: "desc" },
+          orderBy: { score: 'desc' },
           take: 1,
           where: {
             ...(args.filter ?? {}),
-            name: "score3",
-          }
+            name: 'score3',
+          },
         },
       }),
       resolve: ({ scores }) => {
         return scores?.[0]?.score;
-      }
-    })
+      },
+    }),
   }),
 });
 

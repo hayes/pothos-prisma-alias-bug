@@ -8,11 +8,11 @@ dependencies:
     specifier: ^3.33.0
     version: 3.33.0(graphql@16.8.0)
   '@pothos/plugin-prisma':
-    specifier: ^3.58.0
-    version: 3.58.0(@pothos/core@3.33.0)(@prisma/client@5.2.0)(graphql@16.8.0)
+    specifier: 0.0.0-preview-20230901165753
+    version: 0.0.0-preview-20230901165753(@pothos/core@3.33.0)(@prisma/client@5.2.0)(graphql@16.8.0)(typescript@5.2.2)
   '@pothos/plugin-prisma-utils':
     specifier: ^0.11.0
-    version: 0.11.0(@pothos/core@3.33.0)(@pothos/plugin-prisma@3.58.0)(@prisma/client@5.2.0)(graphql@16.8.0)
+    version: 0.11.0(@pothos/core@3.33.0)(@pothos/plugin-prisma@0.0.0-preview-20230901165753)(@prisma/client@5.2.0)(graphql@16.8.0)
   '@pothos/plugin-relay':
     specifier: ^3.43.1
     version: 3.43.1(@pothos/core@3.33.0)(graphql@16.8.0)
@@ -29,14 +29,17 @@ dependencies:
     specifier: ^4.0.4
     version: 4.0.4(graphql@16.8.0)
   prettier:
-    specifier: ^3.0.2
-    version: 3.0.2
+    specifier: ^3.0.3
+    version: 3.0.3
   prisma:
     specifier: ^5.2.0
     version: 5.2.0
   tsx:
     specifier: ^3.12.7
     version: 3.12.7
+  typescript:
+    specifier: ^5.2.2
+    version: 5.2.2
 
 packages:
 
@@ -370,7 +373,7 @@ packages:
       graphql: 16.8.0
     dev: false
 
-  /@pothos/plugin-prisma-utils@0.11.0(@pothos/core@3.33.0)(@pothos/plugin-prisma@3.58.0)(@prisma/client@5.2.0)(graphql@16.8.0):
+  /@pothos/plugin-prisma-utils@0.11.0(@pothos/core@3.33.0)(@pothos/plugin-prisma@0.0.0-preview-20230901165753)(@prisma/client@5.2.0)(graphql@16.8.0):
     resolution: {integrity: sha512-li2oVny2J8Q+rKAM7fO5gjYiaHPAHyIr9nmH4TAyvxBrzH9syR2l8wemDH2lWaxm0trpN45uiT2eGTKgiBfaBw==}
     peerDependencies:
       '@pothos/core': '*'
@@ -379,7 +382,7 @@ packages:
       graphql: '>=15.1.0'
     dependencies:
       '@pothos/core': 3.33.0(graphql@16.8.0)
-      '@pothos/plugin-prisma': 3.58.0(@pothos/core@3.33.0)(@prisma/client@5.2.0)(graphql@16.8.0)
+      '@pothos/plugin-prisma': 0.0.0-preview-20230901165753(@pothos/core@3.33.0)(@prisma/client@5.2.0)(graphql@16.8.0)(typescript@5.2.2)
       '@prisma/client': 5.2.0(prisma@5.2.0)
       '@prisma/generator-helper': 5.2.0
       graphql: 16.8.0
@@ -387,8 +390,8 @@ packages:
       - supports-color
     dev: false
 
-  /@pothos/plugin-prisma@3.58.0(@pothos/core@3.33.0)(@prisma/client@5.2.0)(graphql@16.8.0):
-    resolution: {integrity: sha512-XiXL6V3yzUiI8AGmnADh03NaFuv25nAYU3EC2Nj6SubH6RaaGtMiFKHr1Ze4t1J/PzBaB7MA0bDgMzdGf9oddA==}
+  /@pothos/plugin-prisma@0.0.0-preview-20230901165753(@pothos/core@3.33.0)(@prisma/client@5.2.0)(graphql@16.8.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-s0t8pPS+LI2JnSh4noU90XGJeDoE+o8iQ75X8TwU8aw63UD3iidhBSsRmx/Jn9Ft6Q/urdTKHzO7ji+JRDXPpg==}
     hasBin: true
     peerDependencies:
       '@pothos/core': '*'
@@ -400,6 +403,7 @@ packages:
       '@prisma/client': 5.2.0(prisma@5.2.0)
       '@prisma/generator-helper': 5.2.0
       graphql: 16.8.0
+      typescript: 5.2.2
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -674,8 +678,8 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /prettier@3.0.2:
-    resolution: {integrity: sha512-o2YR9qtniXvwEZlOKbveKfDQVyqxbEIWn48Z8m3ZJjBjcCmUy3xZGIv+7AkaeuaTr6yPXJjwv07ZWlsWbEy1rQ==}
+  /prettier@3.0.3:
+    resolution: {integrity: sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==}
     engines: {node: '>=14'}
     hasBin: true
     dev: false
@@ -746,6 +750,12 @@ packages:
       '@esbuild-kit/esm-loader': 2.5.5
     optionalDependencies:
       fsevents: 2.3.3
+    dev: false
+
+  /typescript@5.2.2:
+    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
+    engines: {node: '>=14.17'}
+    hasBin: true
     dev: false
 
   /urlpattern-polyfill@9.0.0:
