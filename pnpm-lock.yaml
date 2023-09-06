@@ -1,21 +1,25 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@faker-js/faker':
     specifier: ^8.0.2
     version: 8.0.2
   '@pothos/core':
-    specifier: ^3.33.0
-    version: 3.33.0(graphql@16.8.0)
+    specifier: ^3.33.1
+    version: 3.33.1(graphql@16.8.0)
   '@pothos/plugin-prisma':
-    specifier: 0.0.0-preview-20230901165753
-    version: 0.0.0-preview-20230901165753(@pothos/core@3.33.0)(@prisma/client@5.2.0)(graphql@16.8.0)(typescript@5.2.2)
+    specifier: 3.59.0
+    version: 3.59.0(@pothos/core@3.33.1)(@prisma/client@5.2.0)(graphql@16.8.0)(typescript@5.2.2)
   '@pothos/plugin-prisma-utils':
     specifier: ^0.11.0
-    version: 0.11.0(@pothos/core@3.33.0)(@pothos/plugin-prisma@0.0.0-preview-20230901165753)(@prisma/client@5.2.0)(graphql@16.8.0)
+    version: 0.11.0(@pothos/core@3.33.1)(@pothos/plugin-prisma@3.59.0)(@prisma/client@5.2.0)(graphql@16.8.0)
   '@pothos/plugin-relay':
     specifier: ^3.43.1
-    version: 3.43.1(@pothos/core@3.33.0)(graphql@16.8.0)
+    version: 3.43.1(@pothos/core@3.33.1)(graphql@16.8.0)
   '@prisma/client':
     specifier: ^5.2.0
     version: 5.2.0(prisma@5.2.0)
@@ -35,8 +39,8 @@ dependencies:
     specifier: ^5.2.0
     version: 5.2.0
   tsx:
-    specifier: ^3.12.7
-    version: 3.12.7
+    specifier: ^3.12.8
+    version: 3.12.8
   typescript:
     specifier: ^5.2.2
     version: 5.2.2
@@ -365,15 +369,15 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@pothos/core@3.33.0(graphql@16.8.0):
-    resolution: {integrity: sha512-qg6LMEqFwqO9c9S6X2bXBtd2fRFnVHzPtEJMkOPuPgtOkosEpd6eGvBQP5NSzewOiIF3lXIyb5X8ncOoMvlUSw==}
+  /@pothos/core@3.33.1(graphql@16.8.0):
+    resolution: {integrity: sha512-qKD8OxI6WqUKj53UkbBEj9BZ5TnaHP8msWtxC5xsBoSJ9ESQ5pMgPgVOr9tey0NZn/Py3UVs7hqJm8r0xYp4dA==}
     peerDependencies:
       graphql: '>=15.1.0'
     dependencies:
       graphql: 16.8.0
     dev: false
 
-  /@pothos/plugin-prisma-utils@0.11.0(@pothos/core@3.33.0)(@pothos/plugin-prisma@0.0.0-preview-20230901165753)(@prisma/client@5.2.0)(graphql@16.8.0):
+  /@pothos/plugin-prisma-utils@0.11.0(@pothos/core@3.33.1)(@pothos/plugin-prisma@3.59.0)(@prisma/client@5.2.0)(graphql@16.8.0):
     resolution: {integrity: sha512-li2oVny2J8Q+rKAM7fO5gjYiaHPAHyIr9nmH4TAyvxBrzH9syR2l8wemDH2lWaxm0trpN45uiT2eGTKgiBfaBw==}
     peerDependencies:
       '@pothos/core': '*'
@@ -381,8 +385,8 @@ packages:
       '@prisma/client': '*'
       graphql: '>=15.1.0'
     dependencies:
-      '@pothos/core': 3.33.0(graphql@16.8.0)
-      '@pothos/plugin-prisma': 0.0.0-preview-20230901165753(@pothos/core@3.33.0)(@prisma/client@5.2.0)(graphql@16.8.0)(typescript@5.2.2)
+      '@pothos/core': 3.33.1(graphql@16.8.0)
+      '@pothos/plugin-prisma': 3.59.0(@pothos/core@3.33.1)(@prisma/client@5.2.0)(graphql@16.8.0)(typescript@5.2.2)
       '@prisma/client': 5.2.0(prisma@5.2.0)
       '@prisma/generator-helper': 5.2.0
       graphql: 16.8.0
@@ -390,8 +394,8 @@ packages:
       - supports-color
     dev: false
 
-  /@pothos/plugin-prisma@0.0.0-preview-20230901165753(@pothos/core@3.33.0)(@prisma/client@5.2.0)(graphql@16.8.0)(typescript@5.2.2):
-    resolution: {integrity: sha512-s0t8pPS+LI2JnSh4noU90XGJeDoE+o8iQ75X8TwU8aw63UD3iidhBSsRmx/Jn9Ft6Q/urdTKHzO7ji+JRDXPpg==}
+  /@pothos/plugin-prisma@3.59.0(@pothos/core@3.33.1)(@prisma/client@5.2.0)(graphql@16.8.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-6gyJXu8al7SN+GV3ZAJBJBNtXLGuvFQ+dOxV146NTk2sl3OcGJV/VO1RuLGX/N+MZMujh7Kq2/SIpkvSY8jkhQ==}
     hasBin: true
     peerDependencies:
       '@pothos/core': '*'
@@ -399,7 +403,7 @@ packages:
       graphql: '>=15.1.0'
       typescript: '>=4.7.2'
     dependencies:
-      '@pothos/core': 3.33.0(graphql@16.8.0)
+      '@pothos/core': 3.33.1(graphql@16.8.0)
       '@prisma/client': 5.2.0(prisma@5.2.0)
       '@prisma/generator-helper': 5.2.0
       graphql: 16.8.0
@@ -408,13 +412,13 @@ packages:
       - supports-color
     dev: false
 
-  /@pothos/plugin-relay@3.43.1(@pothos/core@3.33.0)(graphql@16.8.0):
+  /@pothos/plugin-relay@3.43.1(@pothos/core@3.33.1)(graphql@16.8.0):
     resolution: {integrity: sha512-T5oFVpTIQW69v2FhXhaxmX3BkqJqONy/wnvtBY110JhpbE8Qa04lDglufr56q0Kkv8CGXxl4387ZeX7NgGrZ7A==}
     peerDependencies:
       '@pothos/core': '*'
       graphql: '>=15.1.0'
     dependencies:
-      '@pothos/core': 3.33.0(graphql@16.8.0)
+      '@pothos/core': 3.33.1(graphql@16.8.0)
       graphql: 16.8.0
     dev: false
 
@@ -741,8 +745,8 @@ packages:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
     dev: false
 
-  /tsx@3.12.7:
-    resolution: {integrity: sha512-C2Ip+jPmqKd1GWVQDvz/Eyc6QJbGfE7NrR3fx5BpEHMZsEHoIxHL1j+lKdGobr8ovEyqeNkPLSKp6SCSOt7gmw==}
+  /tsx@3.12.8:
+    resolution: {integrity: sha512-Lt9KYaRGF023tlLInPj8rgHwsZU8qWLBj4iRXNWxTfjIkU7canGL806AqKear1j722plHuiYNcL2ZCo6uS9UJA==}
     hasBin: true
     dependencies:
       '@esbuild-kit/cjs-loader': 2.4.2
@@ -774,7 +778,3 @@ packages:
     dependencies:
       isexe: 2.0.0
     dev: false
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
