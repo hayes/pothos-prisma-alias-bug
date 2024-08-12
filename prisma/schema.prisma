@@ -1,6 +1,4 @@
 datasource db {
-  // provider = "postgresql"
-  // url      = env("DATABASE_URL")
   provider = "sqlite"
   url      = "file:./dev.db"
 }
@@ -18,27 +16,30 @@ generator pothos {
   prismaUtils  = true
 }
 
-model Account {
-  id     Int     @id @default(autoincrement())
-  name   String
-  values Value[]
+model User {
+  id        Int       @id @default(autoincrement())
+  firstName String
+  lastName  String
+  posts     Post[]
+  comments  Comment[]
 }
 
-model Value {
-  id        Int      @id @default(autoincrement())
-  value     String
-  date      DateTime // @db.Date
-  account   Account  @relation(fields: [accountId], references: [id])
-  accountId Int
-
-  scores Score[]
+model Post {
+  id       Int       @id @default(autoincrement())
+  title    String
+  content  String
+  author   User      @relation(fields: [authorId], references: [id])
+  comments Comment[]
+  authorId Int
 }
 
-model Score {
-  id      Int      @id @default(autoincrement())
-  score   String
-  name    String
-  date    DateTime // @db.Date
-  value   Value    @relation(fields: [valueId], references: [id])
-  valueId Int
+model Comment {
+  id        Int       @id @default(autoincrement())
+  comment   String
+  author    User      @relation(fields: [authorId], references: [id])
+  post      Post      @relation(fields: [postId], references: [id])
+  authorId  Int
+  postId    Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
 }

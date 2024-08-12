@@ -1,42 +1,23 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
-    "composite": false,
-    "declaration": false,
-    "declarationMap": false,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "inlineSources": false,
-    "isolatedModules": true,
-    "moduleResolution": "nodenext",
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "preserveWatchOutput": true,
-    "skipLibCheck": true,
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "sourceMap": true,
     "strict": true,
-    "useUnknownInCatchVariables": false,
-    "jsx": "react-jsx",
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    },
-    "lib": [
-      "esnext",
-      "dom"
-    ],
-    "module": "nodenext",
-    "target": "esnext",
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "resolveJsonModule": true,
+    "alwaysStrict": true,
+    "noImplicitReturns": true,
     "allowSyntheticDefaultImports": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "noEmit": true,
-    "strictNullChecks": true
+    "skipLibCheck": true,
+    "preserveSymlinks": true,
+    "declaration": true,
+    "declarationMap": true
   },
-  "include": [
-    "src"
-  ],
   "exclude": [
-    "node_modules"
+    "dist"
   ]
 }

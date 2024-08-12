@@ -1,64 +1,78 @@
 /* eslint-disable */
-import type { Prisma, Account, Value, Score } from "./client";
+import type { Prisma, User, Post, Comment } from "./client";
 export default interface PrismaTypes {
-    Account: {
-        Name: "Account";
-        Shape: Account;
-        Include: Prisma.AccountInclude;
-        Select: Prisma.AccountSelect;
-        OrderBy: Prisma.AccountOrderByWithRelationInput;
-        WhereUnique: Prisma.AccountWhereUniqueInput;
-        Where: Prisma.AccountWhereInput;
-        Create: Prisma.AccountCreateInput;
-        Update: Prisma.AccountUpdateInput;
-        RelationName: "values";
-        ListRelations: "values";
+    User: {
+        Name: "User";
+        Shape: User;
+        Include: Prisma.UserInclude;
+        Select: Prisma.UserSelect;
+        OrderBy: Prisma.UserOrderByWithRelationInput;
+        WhereUnique: Prisma.UserWhereUniqueInput;
+        Where: Prisma.UserWhereInput;
+        Create: Prisma.UserCreateInput;
+        Update: Prisma.UserUpdateInput;
+        RelationName: "posts" | "comments";
+        ListRelations: "posts" | "comments";
         Relations: {
-            values: {
-                Shape: Value[];
-                Name: "Value";
+            posts: {
+                Shape: Post[];
+                Name: "Post";
+                Nullable: false;
+            };
+            comments: {
+                Shape: Comment[];
+                Name: "Comment";
+                Nullable: false;
             };
         };
     };
-    Value: {
-        Name: "Value";
-        Shape: Value;
-        Include: Prisma.ValueInclude;
-        Select: Prisma.ValueSelect;
-        OrderBy: Prisma.ValueOrderByWithRelationInput;
-        WhereUnique: Prisma.ValueWhereUniqueInput;
-        Where: Prisma.ValueWhereInput;
-        Create: Prisma.ValueCreateInput;
-        Update: Prisma.ValueUpdateInput;
-        RelationName: "account" | "scores";
-        ListRelations: "scores";
+    Post: {
+        Name: "Post";
+        Shape: Post;
+        Include: Prisma.PostInclude;
+        Select: Prisma.PostSelect;
+        OrderBy: Prisma.PostOrderByWithRelationInput;
+        WhereUnique: Prisma.PostWhereUniqueInput;
+        Where: Prisma.PostWhereInput;
+        Create: Prisma.PostCreateInput;
+        Update: Prisma.PostUpdateInput;
+        RelationName: "author" | "comments";
+        ListRelations: "comments";
         Relations: {
-            account: {
-                Shape: Account;
-                Name: "Account";
+            author: {
+                Shape: User;
+                Name: "User";
+                Nullable: false;
             };
-            scores: {
-                Shape: Score[];
-                Name: "Score";
+            comments: {
+                Shape: Comment[];
+                Name: "Comment";
+                Nullable: false;
             };
         };
     };
-    Score: {
-        Name: "Score";
-        Shape: Score;
-        Include: Prisma.ScoreInclude;
-        Select: Prisma.ScoreSelect;
-        OrderBy: Prisma.ScoreOrderByWithRelationInput;
-        WhereUnique: Prisma.ScoreWhereUniqueInput;
-        Where: Prisma.ScoreWhereInput;
-        Create: Prisma.ScoreCreateInput;
-        Update: Prisma.ScoreUpdateInput;
-        RelationName: "value";
+    Comment: {
+        Name: "Comment";
+        Shape: Comment;
+        Include: Prisma.CommentInclude;
+        Select: Prisma.CommentSelect;
+        OrderBy: Prisma.CommentOrderByWithRelationInput;
+        WhereUnique: Prisma.CommentWhereUniqueInput;
+        Where: Prisma.CommentWhereInput;
+        Create: Prisma.CommentCreateInput;
+        Update: Prisma.CommentUpdateInput;
+        RelationName: "author" | "post";
         ListRelations: never;
         Relations: {
-            value: {
-                Shape: Value;
-                Name: "Value";
+            author: {
+                Shape: User;
+                Name: "User";
+                Nullable: false;
+            };
+            post: {
+                Shape: Post;
+                Name: "Post";
+                Nullable: false;
             };
         };
     };

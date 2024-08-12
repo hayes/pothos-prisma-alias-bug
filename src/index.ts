@@ -1,149 +1,83 @@
-import { createServer } from 'node:http';
+import { createServer } from 'http';
 import { createYoga } from 'graphql-yoga';
 import SchemaBuilder from '@pothos/core';
+import WithInputPlugin from '@pothos/plugin-with-input';
+import { DateTimeResolver, JSONResolver } from 'graphql-scalars';
 import PrismaPlugin from '@pothos/plugin-prisma';
 import PrismaUtilsPlugin from '@pothos/plugin-prisma-utils';
 import RelayPlugin from '@pothos/plugin-relay';
-import { PrismaClient } from '../prisma/client';
-import PrismaTypes from '../prisma/generated';
-import { DateResolver } from 'graphql-scalars';
+import ScopeAuthPlugin from '@pothos/plugin-scope-auth';
+import TracingPlugin, { isRootField } from '@pothos/plugin-tracing';
+import ValidationPlugin from '@pothos/plugin-zod';
+import { createSentryWrapper } from '@pothos/tracing-sentry';
+import type PrismaTypes from '../prisma/generated';
+import { Prisma, PrismaClient } from '../prisma/client';
 
-const prisma = new PrismaClient({ log: [{ emit: 'event', level: 'query' }] });
-// notice in the logs that the params are the same, even though the args are different
-prisma.$on('query', (e) => {
-  console.log('Query: ' + e.query);
-  console.log('Params: ' + e.params);
-});
+const db = new PrismaClient();
 
-prisma.$use((params, next) => {
-  console.dir(params, { depth: 10 });
-
-  return next(params);
+const traceResolver = createSentryWrapper({
+  includeArgs: true,
+  includeSource: true,
 });
 
 const builder = new SchemaBuilder<{
+  AuthScopes: {};
+  Context: {};
+  Objects: {};
   PrismaTypes: PrismaTypes;
   Scalars: {
-    Date: { Input: Date; Output: Date };
-    ID: { Input: string; Output: string | number };
+    ID: {
+      Output: number | string;
+      Input: string;
+    };
+    DateTime: {
+      Output: Date;
+      Input: Date;
+    };
+    JSONObject: {
+      Input: any;
+      Output: any;
+    };
   };
+  Tracing: boolean | { formatMessage: (duration: number) => string };
 }>({
-  relayOptions: {
-    cursorType: 'String',
-    clientMutationId: 'omit',
+  plugins: [
+    TracingPlugin,
+    WithInputPlugin,
+    RelayPlugin,
+    ScopeAuthPlugin,
+    PrismaPlugin,
+    PrismaUtilsPlugin,
+    ValidationPlugin,
+  ],
+  relay: {
+    cursorType: 'ID',
+  },
+  scopeAuth: {
+    cacheKey: (value) => JSON.stringify(value),
+    authScopes: async (context) => ({}),
   },
   prisma: {
-    client: prisma,
+    client: db,
+    dmmf: Prisma.dmmf,
   },
-  plugins: [PrismaPlugin, RelayPlugin, PrismaUtilsPlugin],
+  tracing: {
+    default: (config) => isRootField?.(config),
+    wrap: (resolver, options) => traceResolver(resolver, options),
+  },
 });
 
-builder.addScalarType('Date', DateResolver, {});
+builder.queryType();
+builder.mutationType();
 
-builder.queryType({
+builder.addScalarType('DateTime', DateTimeResolver, {});
+builder.addScalarType('JSONObject', JSONResolver, {});
+
+builder.prismaObject('Comment', {
   fields: (t) => ({
-    account: t.prismaField({
-      type: 'Account',
-      args: {
-        id: t.arg.id({ required: true }),
-      },
-      nullable: true,
-      resolve: (query, root, args) => {
-        return prisma.account.findUnique({ ...query, where: { id: Number.parseInt(args.id, 10) } });
-      },
-    }),
-  }),
-});
-
-const DateFilter = builder.prismaFilter('Date', {
-  ops: ['gte', 'lte', 'equals'],
-});
-
-const AccountValuesFilter = builder.prismaWhere('Value', {
-  fields: (t) => ({
-    date: DateFilter,
-  }),
-});
-
-const ValuesScoreFilter = builder.prismaWhere('Score', {
-  fields: (t) => ({
-    date: DateFilter,
-  }),
-});
-
-builder.prismaObject('Account', {
-  name: 'Property',
-  fields: (t) => ({
-    id: t.exposeID('id'),
-    values: t.relatedConnection('values', {
-      cursor: 'id',
-      totalCount: true,
-      defaultSize: 10000,
-      args: {
-        filter: t.arg({ type: AccountValuesFilter }),
-      },
-      query: (args) => {
-        return {
-          where: args.filter ?? {},
-        };
-      },
-    }),
-  }),
-});
-
-builder.prismaObject('Value', {
-  fields: (t) => ({
-    id: t.exposeID('id'),
-    value: t.exposeString('value'),
-    date: t.expose('date', {
-      type: 'Date',
-    }),
-    scoreDate: t.field({
-      type: 'Date',
-      nullable: true,
-      args: {
-        filter: t.arg({ type: ValuesScoreFilter }),
-      },
-      select: (args) => ({
-        scores: {
-          select: {
-            date: true,
-          },
-          orderBy: { score: 'asc' },
-          take: 1,
-          where: {
-            ...(args.filter ?? {}),
-            name: 'score1',
-          },
-        },
-      }),
-      resolve: ({ scores }) => {
-        return scores?.[0]?.date;
-      },
-    }),
-    score: t.string({
-      nullable: true,
-      args: {
-        filter: t.arg({ type: ValuesScoreFilter }),
-      },
-      select: (args) => ({
-        scores: {
-          select: {
-            id: true,
-            score: true,
-          },
-          orderBy: { score: 'desc' },
-          take: 1,
-          where: {
-            ...(args.filter ?? {}),
-            name: 'score3',
-          },
-        },
-      }),
-      resolve: ({ scores }) => {
-        return scores?.[0]?.score;
-      },
-    }),
+    comment: t.exposeString('comment', {}),
+    createdAt: t.expose('createdAt', { type: 'DateTime' }),
+    updatedAt: t.expose('updatedAt', { type: 'DateTime' }),
   }),
 });
 
@@ -151,20 +85,8 @@ const schema = builder.toSchema({});
 
 const query = /* graphql */ `
   query {
-    account(id: 1) {
-      values {
-        edges {
-          node {
-            id
-            value
-            date
-            currentScore: score(filter: { date: { equals: "2020-04-27" } })
-            previousScore: score(filter: { date: { equals: "2019-04-27" } })
-            currentScoreDate:scoreDate(filter: { date: { lte: "2020-07-30" } })
-            previousScoreDate:scoreDate(filter: { date: { lte: "2019-07-30" } })
-          }
-        }
-      }
+    user {
+      id
     }
   }
 `;
